@@ -1,1 +1,43 @@
-<p>recipe-detail works!</p>
+<div class="main-content">
+    <div class="container-float" style="margin-top: 100px;">
+
+        <div class="row" *ngIf="!isRecipeSelected">
+            <div class="col-12">
+                <h3>Select a Recipe!</h3>
+            </div>
+        </div>
+
+
+        <div class="row" *ngIf="isRecipeSelected">
+            <div class="col-12">
+                <img src={{selectedRecipe.imagePath}} alt="" style="width: 50%;">
+                <h1>{{selectedRecipe.name}}</h1>
+                <p>{{selectedRecipe.description}}</p>
+            </div>
+        
+            <div class="col-6">
+                <ul class="list-group">
+                    <li
+                        class="list-group-item"
+                        style="cursor: pointer;"
+                        *ngFor="let ingredient of selectedRecipe.ingredients">
+                        {{ ingredient.name }}: {{ ingredient.amount }}
+                    </li>
+                </ul>
+            </div>
+
+                <div class="dropdown clearfix col-1 offset-1">
+                    <div class="dropdown clearfix">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown1
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                        <li><a style="cursor: pointer;" (click)="addIngredientsToShoppingList()">To Shopping List</a></li>
+                        <li><a  style="cursor: pointer;" (click)="onEdit()" >Edit Recipe</a></li>
+                        <li><a style="cursor: pointer;">Delete Recipe</a></li>
+                        </ul>
+                </div>
+    </div>
+</div>
+
+
+
