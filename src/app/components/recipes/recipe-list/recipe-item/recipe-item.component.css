@@ -1,0 +1,10 @@
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    color:#1228f3; 
+    text-decoration:none; 
+    cursor:pointer;  
+}

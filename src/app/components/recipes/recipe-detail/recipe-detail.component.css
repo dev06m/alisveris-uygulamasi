@@ -3,3 +3,7 @@ ul.dropdown-menu{
     float:none;
     width:150px;
   }
+
+.dropdown-menu li :hover {
+  color: rgb(0, 26, 255);
+}

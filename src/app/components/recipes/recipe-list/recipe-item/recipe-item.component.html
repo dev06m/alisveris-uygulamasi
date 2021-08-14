@@ -1,0 +1,24 @@
+<a
+    [routerLink]="['/recipes/', recipeIndex]"
+    (click)="recipeSelected()"
+    routerLinkActive="active"
+    class="list-group-item clearfix mb-2"
+    style="cursor: pointer;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="list-group-item-heading">{{recipe.name}}</h4>
+                <div class="image-wrapper float-right pr-3">
+                    <img 
+                    class="img-responsive pl-2"
+                        style="max-height: 80px;"
+                        [src]="recipe.imagePath" 
+                        alt="{{recipe.name}}">
+                </div>
+                <div class="single-post-content-wrapper ">
+                    <p class="list-group-item-text">{{recipe.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
