@@ -1,0 +1,50 @@
+<div class="container">
+    <div *ngIf="isLoading" class="text-center">
+        <app-loading-spinner></app-loading-spinner>
+        Loading...
+    </div>
+    <div *ngIf="!isLoading">
+        <div class="text-center my-4">
+            <h1 class="text-primary">You are very Welcome!</h1>
+            <h2 class="text-success">You can save your recipes here and later <br> can visit your list and make a shopping list :)</h2>
+            <div class=" mb-2" style="margin-top: 50px;">
+                <button class="btn btn-primary btn-lg" (click)="switchLogIn()">Log In</button> |
+                <button class="btn btn-primary btn-lg" (click)="switchSignUp()">Sign Up</button>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-6 offset-3 my-5">
+                <div class="alert alert-danger" *ngIf="error">
+                    <p>{{error}}</p>
+                </div>
+                <h3 class="text-center" style="background-color: rgb(18, 174, 247); padding: 15px;">{{isLogIn ? 'Log In' : 'Sign Up'}}</h3>
+                <form  class="" style="background-color: rgb(248, 250, 243);" #form="ngForm"> 
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            class="form-control" 
+                            name="email" 
+                            [(ngModel)]="model.email" 
+                            email required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            class="form-control" 
+                            name="password" 
+                            [(ngModel)]="model.password"
+                            required maxlength="12" minlength="4">
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" (click)="onSubmit()" class="btn btn-success my-3" [disabled]="form.invalid">{{isLogIn ? 'Log In' : 'Sign Up'}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

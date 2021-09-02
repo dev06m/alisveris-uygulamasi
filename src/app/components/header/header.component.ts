@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from 'src/app/auth/account.service';
 
 @Component({
   selector: 'app-header',
@@ -6,11 +7,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  userToken: string;
 
-  constructor() { }
+  constructor(public accountService: AccountService) { }
 
   ngOnInit(): void {
+    this.userToken = (JSON.parse(localStorage.getItem('user')))?._token;
+    console.log(this.userToken)
   }
 
-  
+  a() {
+    console.log('i will beat them all and build my own business and run it through my career')
+  }
+
+  logOut() {
+    this.accountService.logOut();
+  }
+
 }

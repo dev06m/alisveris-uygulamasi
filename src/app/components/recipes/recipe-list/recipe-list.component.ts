@@ -14,15 +14,15 @@ export class RecipeListComponent implements OnInit {
   recipes: Recipe[] = []; 
   isRecipeSelected: boolean = false;
 
-  constructor(private recipeService: RecipeService,
+  constructor(public recipeService: RecipeService,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.recipeService.recipeArr.subscribe(recipeArr => {
-      this.recipes =  recipeArr;
+    
+    this.recipeService.getRecipes().subscribe(res => {
+      this.recipes = res;
+      
     });
-    this.route.paramMap.subscribe(params => {
-    })
   }
 
   selected() {

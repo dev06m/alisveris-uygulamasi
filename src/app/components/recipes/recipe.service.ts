@@ -1,55 +1,53 @@
 import { EventEmitter, Injectable } from "@angular/core";
-import { BehaviorSubject, Subject } from "rxjs";
+import { BehaviorSubject, of, Subject } from "rxjs";
 import { Ingredient } from "src/app/common/ingredient.model";
 import { Recipe } from "src/app/common/recipe.model";
-
+import { HttpClient, HttpEventType, HttpHeaders, HttpParams } from '@angular/common/http';
+import { exhaustMap, map, take, tap } from "rxjs/operators";
+import { AccountService } from "src/app/auth/account.service";
+import { User } from "src/app/auth/user.model";
 
 @Injectable({
     providedIn: 'root'
 })
 export class RecipeService{
-
+  baseUrl = 'https://ng-course-recipe-book-d3d1d-default-rtdb.firebaseio.com/recipes.json';
   selectedRecipe = new Subject<Recipe>();
   selectedItem: number;
   isRecipeSelected = new EventEmitter<boolean>();
 
-  constructor() {
+  recipesResource = new Subject<Recipe[]>();
+  recipes$ = this.recipesResource.asObservable();
+  private recipes: Recipe[] = [];
+
+  constructor(private http: HttpClient, private accountService: AccountService) {
   }
 
-  private recipes: Recipe[] = [
-    new Recipe(1, "Imam Bayildi", "Bez Getir Cafer getir getirme getir getirmegetir getirme getir getirmegetir getirme getir getirmegetir getirme getir getirme", "https://i.lezzet.com.tr/images-xxlarge-recipe/imam_bayildi-b9911d4c-b18e-491d-9fc8-092a96a8ec84.jpg",
-    [
-      new Ingredient("potato", 5),
-      new Ingredient("limon", 6),
-      new Ingredient("petibog", 1),
-     ]),
-    new Recipe(2, "Pizza", "Guzel bir pizza may make your day, and just enjoy your meal dear frıend from Paris. ", "https://cdn.yemek.com/mnresize/940/940/uploads/2017/01/ev-usulu-pizza-yeni.jpg",
-    [
-      new Ingredient("onion", 5),
-      new Ingredient("bread", 6),
-     ]),
-    new Recipe(3, "Pizza", "Guzel bir pizza may make your day, and just enjoy your meal dear frıend from Paris. ", "https://cdn.yemek.com/mnresize/940/940/uploads/2017/01/ev-usulu-pizza-yeni.jpg",
-    [
-      new Ingredient("oil", 5),
-      new Ingredient("tomatoes", 6),
-     ],),
-    new Recipe(4, "Hunkarbegendi", "Hunkar begenmezse hepimizin agzina sicar, o yuzden dikkatli olalim arkadaslar!", "https://i4.hurimg.com/i/hurriyet/75/750x422/5ee1da3018c7732a206bfa8c.jpg", 
-    [
-      new Ingredient("cola", 5),
-      new Ingredient("cake", 6),
-     ],)
-  ];
 
   recipeArr = new BehaviorSubject<Recipe[]>(this.recipes);
 
 
   getRecipes() {
-      return this.recipes.slice(); // this would give you a copy of your array though it wont be a deep copy
-                                  // so the objects still are the same anyways 
-  }
+    
+    return this.http.get<Recipe[]>(this.baseUrl).pipe(
+      map(res => {
+        let recipeArray = []
+        for (const key in res) {
+            recipeArray.push({ ...res[key] })
+        }
+        const recipes: Recipe[] = []
+        recipeArray.map(recipe => {
+          recipes.push({...recipe, ingredients: recipe.ingredients ? recipe.ingredients : []});
+        })
+        this.recipes = recipes;
+        this.recipesResource.next(recipes);
+        
+        return recipes; 
+        }))
+  } 
 
   getRecipe(index: number) {
-    return this.recipes.slice()[index]
+    return this.recipes[index];
   }
 
   selectedItemNumber(item : number) {
@@ -58,24 +56,26 @@ export class RecipeService{
     this.selectedRecipe.next(this.recipes[this.selectedItem]);
   }
 
-  saveRecipe(recipe: any) {
-    console.log(recipe)
-    this.recipes.push(recipe)
-    this.recipeArr.next(this.recipes);
+  saveRecipe(recipe: Recipe) {
+    if (recipe.ingredients.length < 1) {
+      recipe.ingredients = [];
+    }
+    this.recipes.push(recipe);
+    this.recipesResource.next(this.recipes);
+    return this.http.post<Recipe>(this.baseUrl, recipe);
   }
   
-  updateRecipe(updatedRecipe: any) {
-    console.log(updatedRecipe)
-    this.recipes[updatedRecipe.value.id-1] = updatedRecipe.value;
-    return this.recipeArr.next(this.recipes);
+  updateRecipe(index: number, recipe: Recipe) {
+    this.recipes[index] = recipe;
+    this.http.put(this.baseUrl, this.recipes).subscribe(res => {
+      this.recipesResource.next(this.recipes);
+    });
+    // this.http.put(this.baseUrl, );
   }
 
   deleteRecipe(id: number) {
-    console.log(id)
     this.recipes.splice(this.recipes.findIndex(r => r.id === id), 1);
-    console.log(this.recipes)
     this.recipeArr.next(this.recipes.slice());
-    console.log(this.recipes)
   }
   
 }

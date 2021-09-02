@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, NgModule, OnInit, Renderer2, ViewChild, ViewChildren } from '@angular/core';
-import { Form, FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { AbstractControl, Form, FormArray, FormBuilder, FormControl, FormGroup, NgForm, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Recipe } from 'src/app/common/recipe.model';
@@ -27,8 +27,7 @@ export class RecipeEditComponent implements OnInit, AfterViewInit {
   constructor(private recipeService: RecipeService, 
               private router: Router,
               private route: ActivatedRoute,
-              private formBuilder: FormBuilder,
-              private renderer2: Renderer2) { }
+              private formBuilder: FormBuilder) { }
 
 
   ngAfterViewInit(): void { // bu life cycle hook view ile view initilalize edilmis oluyo viewchild burda kullanilabilir ornegin   
@@ -43,23 +42,30 @@ export class RecipeEditComponent implements OnInit, AfterViewInit {
         return +params['id'];
       })
       ).subscribe(id => {
-        if (id !== null)  {
+        if (id != undefined)  {
+          console.log('edit')
           this.populateForm(id);
           this.isEdit = true;
         }
       })
-      console.log(this.model.value)
   }
 
   initializationForm() {
     this.model = this.formBuilder.group({
-      id: [''],
+      // id: [''],
       name: ['', [Validators.required]],
       imagePath: ['', [Validators.required]],
       description: [''],
       ingredients: this.formBuilder.array([])//([this.createIngredient()])
     })
   }
+
+  matchValues(match: string): ValidatorFn {
+    return (control: AbstractControl) => {
+      console.log('control: ', control)
+      return control?.value === control?.parent?.value[match].values ? null : {isMtching: true}
+    }
+  } 
 
   createIngredient(): FormGroup {
     return this.formBuilder.group({
@@ -68,28 +74,35 @@ export class RecipeEditComponent implements OnInit, AfterViewInit {
     })
   }
 
+  // this func is used in html as well
   addIngredient() {
     let ingredients = this.model.get('ingredients') as FormArray;
     ingredients.push(this.createIngredient());
   }
-
+  
   populateForm(index: number) {
     let recipe = this.recipeService.getRecipe(index);
-    for(let ingredient of recipe.ingredients) {
-      this.addIngredient();
+    if(recipe.ingredients.length > 0) {
+      for(let ingredient of recipe.ingredients) {
+        this.addIngredient();
+      }
     }
     this.model.patchValue(recipe);
   }
 
   onSubmit() {
-    const recipes = this.recipeService.getRecipes();
-    const model = this.model.value;
-    const recipe = new Recipe(recipes.length+1, model.name, model.description, model.imagePath, model.ingredients)
+    // const recipes = this.recipeService.getRecipes();
+    const model: Recipe = this.model.value;
+    // const recipe = new Recipe(recipes.length+1, model.name, model.description, model.imagePath, model.ingredients)
     if (this.isEdit) {
-      this.recipeService.updateRecipe(this.model)
+      this.recipeService.updateRecipe(this.recipeIndex, model)
       this.isEdit = false;
     } else {
-      this.recipeService.saveRecipe(model);
+      // this.recipeService.saveRecipe(model);
+      console.log('model: ', model)
+      this.recipeService.saveRecipe(model).subscribe(res => {
+        console.log(res)
+      });
     }
     this.router.navigateByUrl('/recipes');
   }

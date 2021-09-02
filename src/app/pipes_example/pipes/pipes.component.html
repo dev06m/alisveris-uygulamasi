@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="my-3 ml-3">
+        <form #server="ngForm">
+            <div class="form-inline">
+                <input type="text" [(ngModel)]="filter" name="filter" class="form-control">
+                <button type="submit" class="btn btn-primary mx-2" (click)="btn()">Add server</button>
+                Count of servers: <strong class="mx-2">{{serverCount$ | async}}</strong>
+
+            </div>
+        </form>
+    </div>
+    <hr class="m-3">
+    <div class="my-2" *ngFor="let server of servers | filterPipe:'status':filter" [ngStyle]="{'background-color': (server.status === 'stable' ? 'rgb(171, 224, 146)' : 'rgb(228, 243, 161)')}">
+        <p class="px-3 py-3">{{server.name}} | {{server.size}} | {{server.date | date}} <span class="text-end float-right mr-2 bg-secondary">{{server.status}}</span></p> 
+    </div>
+</div>

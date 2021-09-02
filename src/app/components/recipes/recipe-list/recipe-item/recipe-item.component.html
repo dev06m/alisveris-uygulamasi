@@ -7,13 +7,13 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h4 class="list-group-item-heading">{{recipe.name}}</h4>
+                <h4 class="list-group-item-heading">{{recipe?.name | shorten:25}}</h4>
                 <div class="image-wrapper float-right pr-3">
                     <img 
                     class="img-responsive pl-2"
                         style="max-height: 80px;"
-                        [src]="recipe.imagePath" 
-                        alt="{{recipe.name}}">
+                        [src]="recipe?.imagePath" 
+                        alt="{{recipe?.name}}">
                 </div>
                 <div class="single-post-content-wrapper ">
                     <p class="list-group-item-text">{{recipe.description}}</p>

@@ -20,13 +20,12 @@ export class RecipeItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.recipeService.recipeArr.subscribe(recipes => {
-      // this.recipes = recipes;
     })
   }
 
   recipeSelected() {
     let id = this.route
-    this.sharedService.emitChange(this.recipe);
+    // this.sharedService.emitChange(this.recipe);
     // this.sharedService.changeIndex$();
   }
 

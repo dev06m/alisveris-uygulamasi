@@ -13,7 +13,14 @@ import { RecipeListComponent } from './components/recipes/recipe-list/recipe-lis
 import { RecipeEditComponent } from './components/recipes/recipe-edit/recipe-edit.component';
 import { RecipeItemComponent } from './components/recipes/recipe-list/recipe-item/recipe-item.component';
 import { ShadowDirective } from './common/shadow.directive';
-
+import { ShortenName } from './common/shorten-name.pipe';
+import { PipesComponent } from './pipes_example/pipes/pipes.component';
+import { PipePipe } from './pipes_example/pipe.pipe'; 
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ExpInterceptorService } from './_interceptors/exp.interceptor';
+import { AuthComponent } from './auth/auth.component';
+import { LoadingSpinner } from './components/loading-spinner/loading-spinner';
+import { AuthInterceptorInterceptor } from './auth/auth-interceptor.interceptor';
 
 
 @NgModule({
@@ -28,16 +35,24 @@ import { ShadowDirective } from './common/shadow.directive';
     RecipeEditComponent,
     RecipeItemComponent,
     ShadowDirective,
-    
+    ShortenName,
+    PipesComponent,
+    PipePipe,
+    AuthComponent,
+    LoadingSpinner
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+      // {provide: HTTP_INTERCEPTORS, useClass: ExpInterceptorService, multi: true},
+      {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

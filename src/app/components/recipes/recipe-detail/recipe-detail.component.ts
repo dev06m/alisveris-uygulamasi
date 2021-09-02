@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Ingredient } from 'src/app/common/ingredient.model';
 import { Recipe } from 'src/app/common/recipe.model';
@@ -13,12 +13,13 @@ import { map, take } from 'rxjs/operators';
   templateUrl: './recipe-detail.component.html',
   styleUrls: ['./recipe-detail.component.css']
 })
-export class RecipeDetailComponent implements OnInit{
+export class RecipeDetailComponent implements OnInit, AfterViewInit{
 
   //@Input() isRecipeSelected: boolean = true;
   recipe: Recipe;
   recipeIndex: number;
   isRecipeSelected: boolean = false;
+  @ViewChild('a') a: ElementRef;
 
   constructor(private recipeService: RecipeService, 
               private slService: ShoppingListService,
@@ -43,7 +44,7 @@ export class RecipeDetailComponent implements OnInit{
         return +params['id'];
       })
     ).subscribe(id => {
-      if (id !== null) {
+      if (id !== undefined) {
         this.isRecipeSelected = true;
       }
       this.recipeIndex = id;
@@ -63,6 +64,22 @@ export class RecipeDetailComponent implements OnInit{
     this.recipeService.deleteRecipe(id);
     this.router.navigateByUrl('/recipes'); // or navigate['...']
   }
+
+  ngAfterViewInit(): void {
+    console.log('view changed')
+    // this.scrollSelectedEl();
+  }
+
+
+  // scrollSelectedEl() {
+  //   $(this.a.nativeElement).on('click', function(e) {
+  //     // prevent default anchor click behavior
+  //     e.preventDefault();
+      
+  //     console.log('element changed')
+  
+  //   });
+  // }
 
 }
 

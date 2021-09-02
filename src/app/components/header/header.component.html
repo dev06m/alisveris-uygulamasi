@@ -9,27 +9,37 @@
         <li class="nav-item">
           <a 
           [routerLink]="['/']" routerLinkActive="router-link-active" 
-          class="navbar-brand"
+          class="navbar-brand "
           routerLinkActive="active"
           >Recipe Book
         </a>
         </li>
-        <li class="nav-item">
-          <a 
-            class="nav-link" 
-            routerLinkActive="active"
-            routerLink="/recipes"
-            >Recipes 
-            <span class="sr-only"></span></a>
-        </li>
-        <li class="nav-item">
-          <a 
-            class="nav-link" 
-            [routerLink]="['shoppinglist']"
-            routerLinkActive="active"
-            >Shopping List 
-          </a>
-        </li>
+        <ng-container *ngIf="(accountService.user$ | async) || (userToken !== undefined) ">
+          <li class="nav-item">
+            <a 
+              class="nav-link" 
+              routerLinkActive="active"
+              routerLink="/recipes"
+              >Recipes 
+              <span class="sr-only"></span></a>
+          </li>
+          <li class="nav-item">
+            <a 
+              class="nav-link" 
+              [routerLink]="['shoppinglist']"
+              routerLinkActive="active"
+              >Shopping List 
+            </a>
+          </li>
+          <li class="nav-item">
+            <a 
+              class="nav-link" 
+              [routerLink]="['pipes']"
+              routerLinkActive="active"
+              >Pipes Example
+            </a>
+          </li>
+        </ng-container>
       </ul>
       <!-- Manage -->
     </div>
@@ -39,9 +49,9 @@
             Manage
           </a>   
           <ul class="dropdown-menu">
-            <li><a class="nav-link"  href="#">Start Learning</a></li>
-            <li><a class="nav-link"  href="#">View All Courses</a></li>
-            <li><a class="nav-link"  href="#">Chat with a CodeGuide</a></li>
+            <li><a class="nav-link"  href="#" (click)="a()">Save Data</a></li>
+            <li><a class="nav-link"  href="#">Fetch Data</a></li>
+            <li><a class="nav-link"  href="#" (click)="logOut()">Log Out</a></li>
           </ul>
         </li>
       </ul>

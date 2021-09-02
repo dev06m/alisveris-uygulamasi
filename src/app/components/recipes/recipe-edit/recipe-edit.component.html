@@ -4,12 +4,12 @@
     (ngSubmit)="onSubmit()"
     *ngIf="model"
     [disabled]="!model.invalid">
-    <input 
+                <!-- <input 
                     value="model.id"
                     type="hidden" 
                     name="id"
                     class="form-control"
-                    formControlName="id">
+                    formControlName="id"> -->
                 <div class="form-group">
                     <label for="name">Recipe Name</label>
                     <input 
@@ -29,7 +29,7 @@
                         name="imagePath"
                         class="form-control"
                         formControlName="imagePath" #image>
-                        <div class="text-center mb-2">
+                        <div class="text-center mb-2"  *ngIf="image.value !== ''">
                             <img class="rounded mx-auto d-block img-responsive my-2" style="max-width: 100%;" src="{{image?.value}}" alt="image">
                         </div>
                 </div>
@@ -50,7 +50,7 @@
                         formArrayName="ingredients" 
                         >
                         <div [formGroupName]="i" class="form-group" *ngFor="let item of model.get('ingredients')['controls']; let i = index" #ingredientFormGroup>
-                            <div class="col-sm input-group mb-2 row" #ingredients>
+                            <div class="col-sm input-group mb-2 row" #ingredients *ngIf="item">
                                 <input 
                                     type="text"
                                     class="form-control input-group-prepend mr-2 col-7"
