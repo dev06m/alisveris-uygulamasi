@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit {
   constructor(public accountService: AccountService, 
               public translate: TranslateService) {
                 // translate.addLangs(['en', 'tr']);
-                translate.setDefaultLang('en');
+                // translate.setDefaultLang('en');
               }
 
   ngOnInit(): void {

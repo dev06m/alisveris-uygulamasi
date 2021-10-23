@@ -31,7 +31,29 @@
                     {{'auth.login-failed' | translate}}
                 </div>
                 <!-- <a href="#">{{'auth.forgot-pass' | translate}}</a> -->
-                <div href="#">{{'auth.guest-login1' | translate}}<a href="javascript:void(0)" (click)="fillSignin($event)"  style="color: red; font-weight: bold">{{'auth.click' | translate}}</a>{{'auth.guest-login2' | translate}}</div>
+                <!-- kelimelerin yerini degisterebilmek icin conditional ng-container kullnadim -->
+                <ng-container *ngIf="selectedLang === 'en'" >
+                    <div class="my-1"> {{'auth.guest-login1' | translate}}
+                        <a 
+                            href="javascript:void(0)" 
+                            (click)="fillSignin($event)"  
+                            style="color: red; font-weight: bold">
+                                {{'auth.click' | translate}}
+                        </a>
+                        {{'auth.guest-login2' | translate}}
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="selectedLang === 'tr'" >
+                    <div class="my-1"> {{'auth.guest-login1' | translate}}
+                        {{'auth.guest-login2' | translate}}
+                        <a 
+                            href="javascript:void(0)" 
+                            (click)="fillSignin($event)"  
+                            style="color: red; font-weight: bold">
+                                {{'auth.click' | translate}}
+                        </a>
+                    </div>
+                </ng-container>
                 <button type="submit" (click)="onSubmit(true, signupForm)">{{'auth.login' | translate}}</button>
             </form>
         </div>

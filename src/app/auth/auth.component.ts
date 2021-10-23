@@ -22,13 +22,15 @@ export class AuthComponent implements OnInit, OnDestroy {
   closeError = true;
   failedLogin = false;
   authObs = new Observable<any>();
+  selectedLang: string;private
 
   constructor(private accountService: AccountService, 
               private renderer: Renderer2,
               public translate: TranslateService,
               private router: Router) {
-                // translate.addLangs(['en', 'tr']);
-                // translate.setDefaultLang('en');
+                this.selectedLang = translate.getDefaultLang();
+                translate.onLangChange.subscribe(lang => this.selectedLang = lang.lang);
+                
               }
 
 

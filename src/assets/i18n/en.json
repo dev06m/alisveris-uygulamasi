@@ -28,6 +28,14 @@
   "recipes-home": {
     "new-recipe": "New Recipe"
   },
+  "recipes-edit": {
+    "recipes-name": "Recipe Name",
+    "image-url": "Image URL",
+    "description": "Description",
+    "save": "Save",
+    "add-ingredient": "Add Ingr.",
+    "cancel": "Cancel"
+  },
   "shopping-edit": {
     "amount": "Amount",
     "name": "Name",
