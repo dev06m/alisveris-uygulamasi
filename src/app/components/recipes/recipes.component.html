@@ -1,20 +1,25 @@
  <div class="row">
     <div class="col-md-6">
-        <button 
-            routerLink="/recipes/save"
-            class="btn btn-primary my-5 ml-3" 
-            (click)="addNewecipe()"
-            >New Recipe
-        </button>
-    <div >
-        <app-recipe-list ></app-recipe-list>
-    </div>
+        <div class="my-4 ml-3">
+            <button 
+                routerLink="/recipes/save"
+                class="btn btn-primary" 
+                (click)="selected()"
+                >{{'recipes-home.new-recipe' | translate}}
+            </button>
+        </div>
+        <hr/>
+        <div >
+            <app-recipe-list></app-recipe-list>
+        </div>
     </div>
     <div class="col-md-6">
-        <div  class="text-center my-5 ml-3" *ngIf="!isRecipeSelected">
-            <h3>Select a Recipe!</h3>
+        <div class="my-4 ml-3">
+            <div  class="text-center" *ngIf="isRecipeSelected"> 
+                <h3>{{title}}</h3>
+            </div>
         </div>
-        <router-outlet></router-outlet>
+        <hr/>
+        <router-outlet></router-outlet> 
     </div>
  </div>
-

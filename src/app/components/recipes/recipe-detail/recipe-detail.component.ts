@@ -1,17 +1,15 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Ingredient } from 'src/app/common/ingredient.model';
 import { Recipe } from 'src/app/common/recipe.model';
-import { ShoppingListService } from '../../shopping-list/shopping-list.service';
 import { RecipeService } from '../recipe.service';
-import { Params } from '@angular/router';
-import { SharedService } from '../shared.service';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { ShoppingListService } from '../../shopping-list/shopping-list.service';
 
 @Component({
   selector: 'app-recipe-detail',
   templateUrl: './recipe-detail.component.html',
-  styleUrls: ['./recipe-detail.component.css']
+  styleUrls: ['./recipe-detail.component.css'],
+  providers: [ShoppingListService]
 })
 export class RecipeDetailComponent implements OnInit, AfterViewInit{
 
@@ -41,6 +39,7 @@ export class RecipeDetailComponent implements OnInit, AfterViewInit{
     // listen id changes in the route
     this.route.params.pipe(
       map(params => {
+        // this.recipeIndex = +params['id'];
         return +params['id'];
       })
     ).subscribe(id => {
@@ -60,26 +59,14 @@ export class RecipeDetailComponent implements OnInit, AfterViewInit{
 
   }
 
-  onDelete(id: number) {
-    this.recipeService.deleteRecipe(id);
+  onDelete() {
+    this.recipeService.deleteRecipe(this.recipeIndex);
     this.router.navigateByUrl('/recipes'); // or navigate['...']
   }
 
   ngAfterViewInit(): void {
-    console.log('view changed')
     // this.scrollSelectedEl();
   }
-
-
-  // scrollSelectedEl() {
-  //   $(this.a.nativeElement).on('click', function(e) {
-  //     // prevent default anchor click behavior
-  //     e.preventDefault();
-      
-  //     console.log('element changed')
-  
-  //   });
-  // }
 
 }
 

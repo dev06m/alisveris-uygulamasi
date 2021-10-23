@@ -12,27 +12,31 @@ import { SharedService } from '../shared.service';
 export class RecipeListComponent implements OnInit {
   selectedItem: number = 0;
   recipes: Recipe[] = []; 
-  isRecipeSelected: boolean = false;
+  // isRecipeSelected: boolean = false;
+  isRecipesEmpty = false;
 
   constructor(public recipeService: RecipeService,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    
-    this.recipeService.getRecipes().subscribe(res => {
-      this.recipes = res;
-      
+    this.recipeService.getRecipes().subscribe()//recipes => console.log(recipes));
+    this.recipeService.recipes$.subscribe(recipes => {
+      this.recipes = recipes
+      if (this.recipes.length === 0) {
+        this.isRecipesEmpty = true;
+      }
     });
   }
 
-  selected() {
-    this.isRecipeSelected = true;
-    this.route.paramMap.subscribe(params => {
-      this.selectedItem = +params.get('id')
-    }
-    )
-    this.recipeService.selectedItemNumber(this.selectedItem);
-  }
+  // selected() {
+  //   this.isRecipeSelected = true;
+  //   this.route.paramMap.subscribe(params => {
+  //     this.selectedItem = +params.get('id')
+  //   }
+  //   )
+  //   console.log(this.selectedItem)
+  //   // this.recipeService.selectedItemNumber(this.selectedItem);
+  // }
 
 
 }

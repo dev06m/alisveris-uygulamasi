@@ -11,13 +11,10 @@ export class ExpInterceptorService implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // let currentUser: User;
-        // console.log(req)
         // this.accountService.user$.pipe(take(1)).subscribe(user => currentUser = user)
-        // console.log(currentUser)
         //     if(currentUser) {
         //         req.params.set('auth', currentUser.token);
         //     }
-        //     console.log(req)
     
         return next.handle(req);
     }

@@ -16,19 +16,14 @@ export class RecipeService{
   selectedItem: number;
   isRecipeSelected = new EventEmitter<boolean>();
 
-  recipesResource = new Subject<Recipe[]>();
+  private recipesResource = new Subject<Recipe[]>();
   recipes$ = this.recipesResource.asObservable();
   private recipes: Recipe[] = [];
 
   constructor(private http: HttpClient, private accountService: AccountService) {
   }
 
-
-  recipeArr = new BehaviorSubject<Recipe[]>(this.recipes);
-
-
   getRecipes() {
-    
     return this.http.get<Recipe[]>(this.baseUrl).pipe(
       map(res => {
         let recipeArray = []
@@ -42,7 +37,7 @@ export class RecipeService{
         this.recipes = recipes;
         this.recipesResource.next(recipes);
         
-        return recipes; 
+        return this.recipes; 
         }))
   } 
 
@@ -50,32 +45,45 @@ export class RecipeService{
     return this.recipes[index];
   }
 
-  selectedItemNumber(item : number) {
-    this.selectedItem = item;
-    this.isRecipeSelected.emit(true);
-    this.selectedRecipe.next(this.recipes[this.selectedItem]);
-  }
+  // selectedItemNumber(item : number) {
+  //   this.selectedItem = item;
+  //   this.isRecipeSelected.emit(true);
+  //   this.selectedRecipe.next(this.recipes[this.selectedItem]);
+  // }
 
   saveRecipe(recipe: Recipe) {
     if (recipe.ingredients.length < 1) {
       recipe.ingredients = [];
     }
+    console.log(this.recipes)
     this.recipes.push(recipe);
     this.recipesResource.next(this.recipes);
-    return this.http.post<Recipe>(this.baseUrl, recipe);
-  }
+    return this.http.post(this.baseUrl, recipe)
+    // return this.http.post<Recipe>(this.baseUrl, recipe);
+  } 
   
   updateRecipe(index: number, recipe: Recipe) {
     this.recipes[index] = recipe;
     this.http.put(this.baseUrl, this.recipes).subscribe(res => {
+      console.log(res)
       this.recipesResource.next(this.recipes);
     });
     // this.http.put(this.baseUrl, );
   }
 
   deleteRecipe(id: number) {
-    this.recipes.splice(this.recipes.findIndex(r => r.id === id), 1);
-    this.recipeArr.next(this.recipes.slice());
+    console.log('id: ', id, this.recipes)
+    this.recipes.splice(id, 1);
+    console.log(this.recipes)
+    this.http.put(this.baseUrl, this.recipes).pipe(
+      tap(() => {
+      })
+      ).subscribe();
+      console.log(this.recipes)
+      this.recipesResource.next(this.recipes);
+      console.log(this.recipes)
+    // this.recipes.splice(this.recipes.findIndex(r => r.id === id), 1);
+    // this.recipeArr.next(this.recipes.slice());
   }
   
 }

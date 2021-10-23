@@ -1,15 +1,16 @@
-import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Ingredient } from 'src/app/common/ingredient.model';
 import { ShoppingListService } from '../shopping-list.service';
 
 @Component({
   selector: 'app-shopping-edit',
   templateUrl: './shopping-edit.component.html',
-  styleUrls: ['./shopping-edit.component.css']
+  styleUrls: ['./shopping-edit.component.css'],
 })
 export class ShoppingEditComponent implements OnInit, OnDestroy {
   ingredients: Ingredient[] = [];
@@ -25,7 +26,10 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   // react form
   signForm: FormGroup;
   constructor(private slService: ShoppingListService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              public translate: TranslateService) { 
+                translate.setDefaultLang('en');
+              }
 
   ngOnInit(): void {
     this.signForm = new FormGroup({
@@ -71,7 +75,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.slService.deleteIngredient(this.index);
     this.isEditing = false;
     this.signForm.reset();
-    console.log("q")
   }
 
   ngOnDestroy(): void {

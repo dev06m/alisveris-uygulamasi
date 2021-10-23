@@ -1,50 +1,94 @@
-<div class="container">
-    <div *ngIf="isLoading" class="text-center">
-        <app-loading-spinner></app-loading-spinner>
-        Loading...
+<div *ngIf="isLoading" class="text-center">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+<div *ngIf="!isLoading" class="mt-5">
+    <div *ngIf="error">
+        <app-alert [message]="error" (error)="closeErrorWindow($event)"></app-alert>
     </div>
-    <div *ngIf="!isLoading">
-        <div class="text-center my-4">
-            <h1 class="text-primary">You are very Welcome!</h1>
-            <h2 class="text-success">You can save your recipes here and later <br> can visit your list and make a shopping list :)</h2>
-            <div class=" mb-2" style="margin-top: 50px;">
-                <button class="btn btn-primary btn-lg" (click)="switchLogIn()">Log In</button> |
-                <button class="btn btn-primary btn-lg" (click)="switchSignUp()">Sign Up</button>
-            </div>
-        </div>
-    
-        <div class="row">
-            <div class="col-md-6 offset-3 my-5">
-                <div class="alert alert-danger" *ngIf="error">
-                    <p>{{error}}</p>
+    <h2 class="my-5">{{'auth.main-title' | translate}}</h2>
+    <div class="container" id="container" #container>
+        <div class="form-container sign-in-container">
+            <form #loginForm="ngForm">
+                <h1 class="mt-1 mb-5">{{'auth.signin' | translate}}</h1>
+                <input 
+                    type="email" 
+                    id="email" 
+                    placeholder="Email" 
+                    class="form-control" 
+                    name="email" 
+                    [(ngModel)]="model.email"
+                    required email="required"
+                />
+                <input 
+                    type="password" 
+                    placeholder="Password" 
+                    class="form-control" 
+                    name="password" 
+                    [(ngModel)]="model.password"
+                    required
+                />
+                <div *ngIf="failedLogin" class="alert alert-danger">
+                    {{'auth.login-failed' | translate}}
                 </div>
-                <h3 class="text-center" style="background-color: rgb(18, 174, 247); padding: 15px;">{{isLogIn ? 'Log In' : 'Sign Up'}}</h3>
-                <form  class="" style="background-color: rgb(248, 250, 243);" #form="ngForm"> 
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            class="form-control" 
-                            name="email" 
-                            [(ngModel)]="model.email" 
-                            email required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            class="form-control" 
-                            name="password" 
-                            [(ngModel)]="model.password"
-                            required maxlength="12" minlength="4">
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" (click)="onSubmit()" class="btn btn-success my-3" [disabled]="form.invalid">{{isLogIn ? 'Log In' : 'Sign Up'}}</button>
-                    </div>
-                </form>
+                <!-- <a href="#">{{'auth.forgot-pass' | translate}}</a> -->
+                <div href="#">{{'auth.guest-login1' | translate}}<a href="javascript:void(0)" (click)="fillSignin($event)"  style="color: red; font-weight: bold">{{'auth.click' | translate}}</a>{{'auth.guest-login2' | translate}}</div>
+                <button type="submit" (click)="onSubmit(true, signupForm)">{{'auth.login' | translate}}</button>
+            </form>
+        </div>
+        <div class="form-container sign-up-container">
+            <form  #signupForm="ngForm">
+                <h1 class="mt-1">{{'auth.create-account' | translate}}</h1>
+                <input  
+                    type="email" 
+                    id="email" 
+                    placeholder="Email" 
+                    class="form-control" 
+                    [(ngModel)]="model.email" name="email"
+                    #email="ngModel"
+                    required email
+                />
+                <div *ngIf="!email?.valid && (email?.dirty || email?.touched)" class="alert alert-danger" style="align-items: left">
+                    {{'auth.signup-failed1' | translate}}
+                </div>
+                <input 
+                    type="password" 
+                    id="password" 
+                    placeholder="Password" 
+                    class="form-control" 
+                    [(ngModel)]="model.password" 
+                    name="password"
+                    #password="ngModel"
+                    required minlength="6" maxlength="16"
+                />
+                <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+                    {{'auth.signup-failed2' | translate}}
+                </div>
+                <!-- <h5 *ngIf="signupForm.touched && signupForm.invalid">Please fill blanks. {{signupForm.value | json}} </h5> -->
+                <button type="submit" (click)="onSubmit(false, signupForm)" [disabled]="signupForm.invalid">{{'auth.signup' | translate}}</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>{{'auth.sub-title1' | translate}}</h1>
+                    <p>{{'auth.text1' | translate}}</p>
+                    <button class="ghost" id="signIn" type="button" (click)="signIn()">{{'auth.signin-button' | translate}}</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>{{'auth.sub-title2' | translate}}</h1>
+                    <p>{{'auth.text2' | translate}}</p>
+                    <button class="ghost" id="signUp" type="button" (click)="signUp()">{{'auth.signup-button' | translate}}</button>
+                </div>
             </div>
         </div>
     </div>
+    
+    <footer>
+        <p>
+            <i class="fa fa-heart"></i> Created by
+            <a target="_blank" href="https://muratdeveci.me">Murat Deveci</a>
+            <!-- - Read how I created this and how you can join the challenge
+            <a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>. -->
+        </p>
+    </footer>
 </div>

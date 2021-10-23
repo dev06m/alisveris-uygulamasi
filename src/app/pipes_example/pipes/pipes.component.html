@@ -13,4 +13,8 @@
     <div class="my-2" *ngFor="let server of servers | filterPipe:'status':filter" [ngStyle]="{'background-color': (server.status === 'stable' ? 'rgb(171, 224, 146)' : 'rgb(228, 243, 161)')}">
         <p class="px-3 py-3">{{server.name}} | {{server.size}} | {{server.date | date}} <span class="text-end float-right mr-2 bg-secondary">{{server.status}}</span></p> 
     </div>
+    <button class="btn btn-primary mr-2" (click)="onChange()">Change route</button>
+    <button class="btn btn-primary mr-2" [routerLink]="['../']">Back</button> <!-- to go to the parent route -->
+    <button class="btn btn-primary mr-2" [routerLink]="['../<sibling>']">Goto sibling</button>
+    <button class="btn btn-primary mr-2" [routerLink]="['<Child>']">Goto Child</button>
 </div>

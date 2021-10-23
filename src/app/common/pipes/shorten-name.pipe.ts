@@ -10,4 +10,4 @@ export class ShortenName implements PipeTransform{
         return value;
     }
 
-}
+} 

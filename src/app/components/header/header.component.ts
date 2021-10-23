@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { AccountService } from 'src/app/auth/account.service';
 
 @Component({
@@ -9,19 +10,22 @@ import { AccountService } from 'src/app/auth/account.service';
 export class HeaderComponent implements OnInit {
   userToken: string;
 
-  constructor(public accountService: AccountService) { }
+  constructor(public accountService: AccountService, 
+              public translate: TranslateService) {
+                // translate.addLangs(['en', 'tr']);
+                translate.setDefaultLang('en');
+              }
 
   ngOnInit(): void {
     this.userToken = (JSON.parse(localStorage.getItem('user')))?._token;
-    console.log(this.userToken)
-  }
-
-  a() {
-    console.log('i will beat them all and build my own business and run it through my career')
   }
 
   logOut() {
     this.accountService.logOut();
+  }
+
+  switchLang(lang: string) {
+    this.translate.use(lang);
   }
 
 }

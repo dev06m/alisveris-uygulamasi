@@ -1,149 +1,34 @@
-<!-- 
-<div class="container">
-    <div class="row">
-        <form  
-            #form="ngForm" 
-            (ngSubmit)="submit(form)">
-            <label for="name"> Name</label>
-            <div class="form-group" ngModelGroup="recipeData">
-                <input 
-                    name="name"
-                    ngModel
-                    #name="ngModel"
-                    type="text"
-                    required
-                    class="form-control">
-                    <div *ngIf="name.touched && ! name.valid">
-                        <p class="warning">Firstname is required</p>
-                    </div>
-                <button 
-                    class="btn btn-primary" 
-                    (click)="setControl()"
-                    type="button" 
-                    >Set Name
-                </button> <br>   
-                <label for="amount">Amount</label>
-                <input 
-                    type="text"
-                    name="amount"
-                    ngModel
-                    #amount="ngModel"
-                    required
-                    class="form-control">
-                    <div *ngIf="amount.touched && ! amount.valid">
-                        Amount is required
-                    </div>
-            </div>
-            <div class="form-group" ngModelGroup="recipeSelect">
-                <label for="secret">Secret Question</label>
-                <select
-                    id="select"
-                    class="form-constrol"
-                    [ngModel]="secret"
-                    name="secretQuestion">
-                    <option value="pet">Your first Pet?</option>
-                    <option value="teacher">Your first teacher?</option>
-                </select>   
-                <input 
-                    id="secret"
+<div class="row">
+    <div class="col-12">
+        <form
+            [formGroup] ="signForm"
+            (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                
+                <label for="name">{{'shopping-edit.name' | translate}}</label>
+                <input
+                    id="name"
                     class="form-control"
-                    type="text" 
-                    name="secret" 
-                    [(ngModel)]="answer"> 
-            </div>
-            Answer: <br>
-            <p>{{answer}}</p>
-            <div class="radio" *ngFor="let gender of genders">
-                <label>
-                    <input
-                        type="radio" 
-                        name="gender" 
-                        ngModel
-                        [value]="gender">
-                        {{gender}}
-                </label>
-            </div>
-            <div class="form-group btn-group">
-                <button 
-                    type="submit" 
-                    class="btn btn-success" 
-                    [disabled]="!form.valid"
-                    >Add
-                </button>
-        </form>
-        <hr>
-        
-        <div class="col-10">
-            <ul class="list-group">
-                <a 
-                    href=""
-                    class="list-group-item"
-                    style="cursor: pointer;"
-                    *ngFor="let ingredient of ingredients">
-                    {{ ingredient.name }} {{ ingredient.amount }}
-                </a>
-            </ul>
-        </div>
-    </div>
-</div> -->
-
-<div class="container">
-    <div class="row">
-        <div class="col-10">
-
-            <form
-                [formGroup] ="signForm"
-                (ngSubmit)="onSubmit()">
-                <div class="form-group">
-                    
-                    <label for="name">Name</label>
-                    <input
-                        id="name"
-                        class="form-control"
-                        type="text"
-                        formControlName="name"> 
-                
-                    <label for="name">Amount</label>
-                    <input
-                        id="amount"
-                        class="form-control"
-                        type="number"
-                        formControlName="amount"
-                        pattern="^[0-9]+[1-9]*$">
-                <!--     
-                    <label for="name">Gender</label>
-                    <select formControlName="gender">
-                
-                    </select> -->
+                    type="text"
+                    formControlName="name"> 
             
-                </div>
-                <!-- <div  formArrayName="hobbies">
-                    <h4>Your Hobbies:</h4>
-                    <div style="margin: 2px;">
-                        <button 
-                            type="button"
-                            (click)="onAddHobby()"
-                            class="btn btn-secondary"
-                            >Add Hobby
-                        </button>
-                    </div>
-                    <div class="form-group" *ngFor="let hobby of signForm.get('hobbies')['controls']; let i = index">
-                        <input 
-                            type="text"
-                            class="form-control"
-                            [formControlName]="i"
-                            >
-                    </div>
-                </div> -->
-                <!-- <button type="submit" class="btn btn-primary" [disabled]="isEditing">Submit</button>
-                <button type="button" class="btn btn-secondary" (click)="onEdit()" [disabled]="!isEditing">Edit</button> -->
-                <button type="button" (click)="onSubmit()" class="btn btn-success">{{ !isEditing ? 'Save' : 'Edit' }}</button>
-                <button type="button" (click)="onCancel()" class="btn btn-warning">Cancel</button>
+                <label for="name">{{'shopping-edit.amount' | translate}}</label>
+                <input
+                    id="amount"
+                    class="form-control"
+                    type="number"
+                    formControlName="amount"
+                    pattern="^[0-9]+[1-9]*$">
+            </div>
+            <div class="button-groups mb-3">
+                <button type="button" (click)="onSubmit()" class="btn btn-success mr-2">{{ !isEditing ? ('shopping-edit.save' | translate) : ('shopping-edit.edit' | translate) }}</button>
                 <button 
                     *ngIf="isEditing"
-                    type="button" (click)="onDelete()" class="btn btn-danger">Delete</button>
-            </form>
+                    type="button" (click)="onDelete()" class="btn btn-danger mr-2">{{'shopping-edit.delete' | translate}}
+                </button>
+                <button type="button" (click)="onCancel()" class="btn btn-warning mr-2">{{'shopping-edit.cancel' | translate}}</button>
+            </div>
+        </form>
 
-        </div>
     </div>
 </div>

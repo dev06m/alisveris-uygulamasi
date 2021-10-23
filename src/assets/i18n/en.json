@@ -1,0 +1,39 @@
+{
+  "header": {
+    "li1": "Recipe Book",
+    "li2": "Recipes",
+    "li3": "Shopping List",
+    "li4": "Menu"
+  },
+  "auth": {
+    "main-title": "Welcome Recipe - Shopping Application",
+    "signin": "Sign In",
+    "login-failed": "Invalid username or password.",
+    "forgot-pass": "Forgot your password?",
+    "guest-login1": "!! You can sign up or you can ",
+    "click": "click ",
+    "guest-login2": "to sign in easily",
+    "login": "Sign In",
+    "create-account": "Create Account",
+    "signup-failed1": "Invalid Email",
+    "signup-failed2": "Invalid Password",
+    "signup": "Sign Up",
+    "sub-title1": "Welcome Back!",
+    "text1": "To keep connected with us please login with your personal info",
+    "signin-button": "Sign In",
+    "sub-title2": "Hello, Friend!",
+    "text2": "Enter your personal details and start journey with us",
+    "signup-button": "Sign Up"
+  },
+  "recipes-home": {
+    "new-recipe": "New Recipe"
+  },
+  "shopping-edit": {
+    "amount": "Amount",
+    "name": "Name",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel"
+  }
+}

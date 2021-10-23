@@ -9,8 +9,9 @@
                 <li 
                     class="list-group-item" 
                     *ngFor="let ingredient of ingredients; let i = index"
-                    style="cursor: pointer;">
-                <a routerLink={{i}} (click)="onEditIngredient(i)">{{ingredient.name}} ({{ingredient.amount}})</a>
+                    style="cursor: pointer;"
+                    (click)="onEditIngredient(i)">
+                    <a class="ingredients">{{ingredient.name}} ({{ingredient.amount}})</a>
                 </li>
             </ul>
         </div>

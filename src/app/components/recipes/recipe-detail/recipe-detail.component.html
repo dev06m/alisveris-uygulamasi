@@ -1,6 +1,5 @@
 
 <div *ngIf="isRecipeSelected">
-    <a href="#redirect" #a>Redirect to bottom section</a>
     <div class="text-center mt-5">
         <img src={{recipe.imagePath}} alt="" class="rounded img-thumbnail" style="width: 100%;">
         <div class="mt-3">
@@ -27,29 +26,12 @@
                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Manage Recipe
                 <span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                <li><a style="cursor: pointer;" (click)="addIngredientsToShoppingList()">To Shopping List</a></li>
-                <li><a  style="cursor: pointer;" (click)="onEdit()" >Edit Recipe</a></li>
-                <li><a style="cursor: pointer;" (click)="onDelete(recipe.id)">Delete Recipe</a></li>
+                    <li><a style="cursor: pointer;" (click)="addIngredientsToShoppingList()">To Shopping List</a></li>
+                    <li><a  style="cursor: pointer;" (click)="onEdit()" >Edit Recipe</a></li>
+                    <li><a style="cursor: pointer;" (click)="onDelete()">Delete Recipe</a></li>
                 </ul>
         </div>
     </div>
-    <!-- <div id="redirect">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro magni sapiente similique assumenda sequi! Nemo?</p>
-        <ul>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere inventore illo ea possimus soluta amet ducimus iste tempore, quasi voluptas?</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere inventore illo ea possimus soluta amet ducimus iste tempore, quasi voluptas?</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere inventore illo ea possimus soluta amet ducimus iste tempore, quasi voluptas?</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere inventore illo ea possimus soluta amet ducimus iste tempore, quasi voluptas?</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere inventore illo ea possimus soluta amet ducimus iste tempore, quasi voluptas?</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere inventore illo ea possimus soluta amet ducimus iste tempore, quasi voluptas?</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere inventore illo ea possimus soluta amet ducimus iste tempore, quasi voluptas?</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere inventore illo ea possimus soluta amet ducimus iste tempore, quasi voluptas?</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere inventore illo ea possimus soluta amet ducimus iste tempore, quasi voluptas?</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere inventore illo ea possimus soluta amet ducimus iste tempore, quasi voluptas?</li>
-
-        </ul>
-    </div> -->
-
 </div>
 
 

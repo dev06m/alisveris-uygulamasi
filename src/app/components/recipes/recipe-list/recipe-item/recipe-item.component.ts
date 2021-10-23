@@ -1,9 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { catchError } from 'rxjs/operators';
 import { Recipe } from 'src/app/common/recipe.model';
-import { RecipeService } from '../../recipe.service';
-import { SharedService } from '../../shared.service';
-
 @Component({
   selector: 'app-recipe-item',
   templateUrl: './recipe-item.component.html',
@@ -13,20 +12,15 @@ export class RecipeItemComponent implements OnInit {
   params;
   @Input() recipe: Recipe;
   @Input() recipeIndex: number;
+  
 
-  constructor(private recipeService: RecipeService,
-              private sharedService: SharedService,
-              private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.recipeService.recipeArr.subscribe(recipes => {
-    })
   }
 
   recipeSelected() {
     let id = this.route
-    // this.sharedService.emitChange(this.recipe);
-    // this.sharedService.changeIndex$();
   }
 
 }

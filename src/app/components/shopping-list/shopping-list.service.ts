@@ -2,9 +2,9 @@ import { EventEmitter, Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { Ingredient } from "src/app/common/ingredient.model";
 
-@Injectable({
-    providedIn: 'root'
-})
+// @Injectable({
+//     providedIn: 'root'
+// })
 export class ShoppingListService{
     
     ingredientsChanged = new Subject<Ingredient[]>(); // bu observable

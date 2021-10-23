@@ -10,13 +10,13 @@
                 <h4 class="list-group-item-heading">{{recipe?.name | shorten:25}}</h4>
                 <div class="image-wrapper float-right pr-3">
                     <img 
-                    class="img-responsive pl-2"
+                        src="{{recipe.imagePath ? recipe.imagePath : '../../../../../assets/empty-food.png'}}"
+                        class="img-responsive pl-2"
                         style="max-height: 80px;"
-                        [src]="recipe?.imagePath" 
                         alt="{{recipe?.name}}">
                 </div>
                 <div class="single-post-content-wrapper ">
-                    <p class="list-group-item-text">{{recipe.description}}</p>
+                    <p class="list-group-item-text">{{recipe.description | shorten:200}}</p>
                 </div>
             </div>
         </div>

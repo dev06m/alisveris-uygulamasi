@@ -38,6 +38,7 @@ export class AuthInterceptorInterceptor implements HttpInterceptor {
         } else {
           user === null ? token = userToken : token = user.token;
         }
+        // request.
         request = request.clone({
           params: new HttpParams().set('auth', token)
         })

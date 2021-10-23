@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { count, filter } from 'rxjs/operators';
 
@@ -14,7 +15,7 @@ export class PipesComponent implements OnInit{
   serverCount$ = this.serverCountSource.asObservable();
   serverCount: number;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private router: Router) { }
   // ngOnDestroy(): void {
   //   throw new Error('Method not implemented.');
   // }
@@ -38,6 +39,26 @@ export class PipesComponent implements OnInit{
     this.servers.push(newServer);
     
     this.serverCountSource.next(this.servers.length);
+  }
+
+  onChange() {
+    // this.router.navigate(['pipes'], {queryParams: {name: 'murat', age: 18}, queryParamsHandling: "preserve"});
+    // this.router.navigate(['aa/5', ], {relativeTo: this.route}); // navigate ile relative path olusturmak icin relativeTo kullanilir
+    /*
+    relativeTo: ActivatedRoute
+      Enables relative navigation from the current ActivatedRoute. This is applicable only to router.navigate() method.
+
+      Example:
+
+      The following Navigates to the Detail route from child route
+    */
+    
+    this.router.navigate(['../recipes'], { relativeTo: this.route, skipLocationChange: true });
+    /*
+    skipLocationChange: boolean
+    You can change the route, without changing the URL in the browser.  This Navigates to a new URL without pushing a new state into history.
+    */
+    
   }
 }
 

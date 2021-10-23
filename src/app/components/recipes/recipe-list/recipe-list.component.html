@@ -1,8 +1,10 @@
 <div>
+    <div *ngIf="isRecipesEmpty" style="font-weight: bold">
+        Your recipe list is empty. Please click new recipe button above to add new recipe.
+    </div>
     <app-recipe-item 
-        *ngFor="let recipe of recipeService.recipes$ | async; let i = index"
+        *ngFor="let recipe of recipes; let i = index"
         [recipe]="recipe"
         [recipeIndex]="i">
     </app-recipe-item>
-    <p></p>
 </div>

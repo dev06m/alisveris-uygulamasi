@@ -1,0 +1,36 @@
+{
+  "header": {
+    "li1": "Tarif Kitabı",
+    "li2": "Yemek Tarifleri",
+    "li3": "Alışveriş Listesi",
+    "li4": "Menü"
+  },
+  "auth": {
+    "main-title": "Yemek Tarifi Uygulamasına Hoş Geldiniz",
+    "signin": "Giriş Yap",
+    "login-failed": "Geçersiz kullanıcı adı ya da şire",
+    "forgot-pass": "Şifrenizimi unuttunuz?",
+    "login": "Giriş Yap",
+    "create-account": "Hesap Oluştur",
+    "signup-failed1": "Geçersiz Email",
+    "signup-failed2": "Geçersiz Şifre",
+    "signup": "Kayıt Ol",
+    "sub-title1": "Hoşgeldin!",
+    "text1": "Devem edebilmek için lütfen giriş yap",
+    "signin-button": "Giriş Yap",
+    "sub-title2": "Merhaba!",
+    "text2": "Kayıt ol ve devam et",
+    "signup-button": "Kayıt Ol"
+  },
+  "recipes-home": {
+    "new-recipe": "Yeni Tarif"
+  },
+  "shopping-edit": {
+    "amount": "Miktar",
+    "name": "Malzeme İsmi",
+    "save": "Kaydet",
+    "edit": "Edit",
+    "delete": "Sil",
+    "cancel": "Vazgeç"
+  }
+}

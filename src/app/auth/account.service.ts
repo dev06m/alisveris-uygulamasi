@@ -5,6 +5,7 @@ import { BehaviorSubject, ReplaySubject, throwError } from "rxjs";
 import { catchError, tap, timeInterval } from "rxjs/operators";
 import { AuthComponent } from "./auth.component";
 import { User } from "./user.model";
+import { environment } from '../../environments/environment.prod'; 
 
 interface ResponseData{
     kind: string;
@@ -25,8 +26,9 @@ export class AccountService{
     user$ = this.userSource.asObservable();
 
     signUp(model) {
-        return this.http.post<ResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC9-aUXEEcA2hi9nAdy8xZNZJQlG9Jkt5k', model)
+        return this.http.post<ResponseData>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseAPIKey}`, model)
             .pipe(catchError(error => {
+                console.log(error)
                 let errorMessage = 'An unknown error is occured!';
                     if (!error.error || !error.error.error) {
                         throwError(errorMessage);
@@ -51,10 +53,10 @@ export class AccountService{
     }
     
     logIn(model) {
-        return this.http.post<ResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC9-aUXEEcA2hi9nAdy8xZNZJQlG9Jkt5k', model)
+        return this.http.post<ResponseData>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebaseAPIKey}`, model)
             .pipe( 
                 tap(resData => {
-                    console.log(resData);
+                    console.log('line 50', resData)
                     this.handleAuthentication(resData);
                 }),
                 catchError(error => {
@@ -80,25 +82,19 @@ export class AccountService{
     }   
 
     logOut() {
+        this.router.navigateByUrl('/auth')
         localStorage.removeItem('user');
         this.userSource.next(null);
-        this.router.navigateByUrl('')
     }
 
     handleAuthentication(resData: ResponseData) {
-
-        const expirationDate = new Date(new Date().getTime() + 10000)// +resData.expiresIn * 1000); // set expiration time
-        console.log(expirationDate)
+        console.log(resData);
+        const expirationDate = new Date(new Date().getTime() + +resData.expiresIn * 1000); // set expiration time
         const user = new User(resData.email, resData.localId, resData.idToken, expirationDate);
-
-        setInterval(_ => {
-            // this.autoLogin(user);
-        }, 1000) 
         
-        this.userSource.next(user);
         localStorage.setItem('user', JSON.stringify(user)); // bu next'den once gelmeli
+        this.userSource.next(user);
         this.router.navigateByUrl('/recipes')
-        
     }
 
     autoLogOut(): void {
